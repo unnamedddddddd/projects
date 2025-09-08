@@ -9,30 +9,32 @@ float TwoDivision(float a, float b);
 int main(){
     try
     {
-        float a = 0, b = 0;
-        cin >> a >> b;
-        cout << TwoDivision(a,b) << endl;
-    }catch(const std::underflow_error& e)
+        float first = 0, second = 0;
+        cout << "Первое число:" ; cin >> first; 
+        cout << "Второе число:" ; cin >> second; 
+
+        cout << TwoDivision(first,second) << endl;
+    }catch(const underflow_error& e)
     {
         std::cerr << "Ошибка: "<< e.what() << '\n';
-    }catch(const std::exception& e)
+    }catch(const exception& e)
     {
         std::cerr << "Ошибка: "<< e.what() << '\n';
     }
     return 0;
 }
 
-float TwoDivision(float a, float b){
-    float min_float = numeric_limits<float>::lowest();
-    if (a == 0 || b == 0)
+float TwoDivision(float first, float second){
+    float min_float = numeric_limits<float>::min();
+    if (second == 0)
     {
         throw runtime_error("Деление на 0");
     }
-    else if (a > min_float  && b > min_float)
-    {
-        if (a > b) return a / b;
-        else return b / a;
-    }
-    else throw runtime_error("Переполнение");
-    return 0;
+    float res = first / second;
+    
+    if (res < min_float) throw underflow_error("Результат меньше допустимого значения");
+    else return res;
+
+return 0;
 }
+   
